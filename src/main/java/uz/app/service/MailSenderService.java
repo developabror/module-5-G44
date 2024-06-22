@@ -34,7 +34,7 @@ public class MailSenderService {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(senderMail, "fbxnfpbxetsymcem");
+                return new PasswordAuthentication(senderMail, "pass");
 
             }
         });
