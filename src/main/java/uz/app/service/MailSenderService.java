@@ -22,7 +22,11 @@ public class MailSenderService {
         properties.put("mail.debug", "false");
     }
 
+<<<<<<< HEAD
+    String senderMail = "abror01042001@gmail.com";
+=======
     String senderMail = "mailtrapuser";
+>>>>>>> ce83fcaa5b0839659aebc80edb35a42d394c57a4
 
     private Session getSession() {
 
@@ -30,7 +34,7 @@ public class MailSenderService {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
 
-                return new PasswordAuthentication(senderMail, "mailtrap-password");
+                return new PasswordAuthentication(senderMail, "pass");
 
             }
         });
@@ -53,7 +57,7 @@ public class MailSenderService {
         }
     }
 
-    public void sendMedia(String to) {
+    public void sendMedia(String to,String path) {
         try {
             Message message = new MimeMessage(getSession());
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
@@ -61,7 +65,7 @@ public class MailSenderService {
             Multipart multipart = new MimeMultipart();
             BodyPart bodyPart = new MimeBodyPart();
             multipart.addBodyPart(bodyPart);
-            FileDataSource fileDataSource = new FileDataSource("D:\\image.jpg");
+            FileDataSource fileDataSource = new FileDataSource(path);
             bodyPart.setDataHandler(new DataHandler(fileDataSource));
 
             bodyPart.setFileName("image.jpg");
