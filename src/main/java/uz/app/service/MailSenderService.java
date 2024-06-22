@@ -19,13 +19,13 @@ public class MailSenderService {
         properties.put("mail.smtp.auth", "true");
     }
 
-    String senderMail = "email";
+    String senderMail = "abror01042001@gmail.com";
 
     private Session getSession() {
         return Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderMail, "pass");
+                return new PasswordAuthentication(senderMail, "fbxnfpbxetsymcem");
             }
         });
     }
@@ -45,7 +45,7 @@ public class MailSenderService {
         }
     }
 
-    public void sendMedia(String to) {
+    public void sendMedia(String to,String path) {
         try {
             Message message = new MimeMessage(getSession());
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
@@ -53,7 +53,7 @@ public class MailSenderService {
             Multipart multipart = new MimeMultipart();
             BodyPart bodyPart = new MimeBodyPart();
             multipart.addBodyPart(bodyPart);
-            FileDataSource fileDataSource = new FileDataSource("D:\\image.jpg");
+            FileDataSource fileDataSource = new FileDataSource(path);
             bodyPart.setDataHandler(new DataHandler(fileDataSource));
 
             bodyPart.setFileName("image.jpg");

@@ -16,7 +16,10 @@ public class Main {
                 case 1->{
                     System.out.println("enter email");
                     String email = strScanner.nextLine();
-                    mailSenderService.sendMedia(email);
+                    System.out.println("enter file path");
+                    String path = strScanner.nextLine();
+                    mailSenderService.sendMedia(email,path);
+
                 }
                 case 2->{
                     return;
