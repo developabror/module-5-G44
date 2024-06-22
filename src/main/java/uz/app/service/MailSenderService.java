@@ -8,26 +8,34 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MailSenderService {
     private Properties properties = new Properties();
 
     {
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.port", "465");
-        properties.put("mail.smtp.ssl.enable", "true");
+        properties.put("mail.smtp.host", "sandbox.smtp.mailtrap.io");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.starttls.enable", "true");
         properties.put("mail.smtp.auth", "true");
+        properties.put("mail.debug", "false");
     }
 
-    String senderMail = "email";
+    String senderMail = "mailtrapuser";
 
     private Session getSession() {
-        return Session.getInstance(properties, new Authenticator() {
+
+        Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderMail, "pass");
+
+                return new PasswordAuthentication(senderMail, "mailtrap-password");
+
             }
         });
+        session.setDebug(false);
+        return session;
     }
 
     public void sendMessage(String to, String code) {
