@@ -6,11 +6,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Category {
-    private String id;
-    private String name;
-    private List<Meal> meals;
+@Data
+public class Booking {
+    private String date;
+    private List<Product> products;
 }
