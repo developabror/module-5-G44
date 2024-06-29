@@ -13,6 +13,7 @@ public class AuthService {
     AdminService adminService = AdminService.getInstance();
     UserService userService = UserService.getInstance();
 
+
     public void signUp() {
         User user = new User();
         user.setUsername(getText("entre username"));

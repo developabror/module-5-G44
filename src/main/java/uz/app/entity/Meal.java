@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class Product {
+public class Meal {
+
+    private String id;
     private String name;
     private Double price;
 }

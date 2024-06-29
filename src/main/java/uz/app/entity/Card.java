@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data@AllArgsConstructor@NoArgsConstructor
 public class Card /*implements Comparable<Card>*/{
+
     private String number;
     private String expireDate;
     private Double balance;
