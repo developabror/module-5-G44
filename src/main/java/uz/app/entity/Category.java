@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
+
     private String id;
     private String name;
     private List<Meal> meals;

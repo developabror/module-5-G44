@@ -21,6 +21,7 @@ public class UserService {
     Map<User, Order> userOrder = new HashMap<>();
 
     public void service() {
+
         while (true) {
             int option = getInt("""
                     0 exit

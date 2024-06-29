@@ -12,6 +12,7 @@ public class Utils {
         return strScanner.nextLine();
     }
 
+
     public static int getInt(String text) {
         System.out.println(text);
         try {

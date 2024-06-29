@@ -23,6 +23,7 @@ public class AdminService {
         return adminService;
     }
 
+
     public void service() {
         while (true){
             switch (getInt("""
