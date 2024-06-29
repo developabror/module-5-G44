@@ -18,13 +18,13 @@ public class AuthService {
         user.setUsername(getText("entre username"));
         user.setPassword(getText("entre password"));
         user.setRole("user");
-        database.userList.add(user);
+        database.addUser(user);
     }
 
     public void signIn() {
         String username = getText("enter username");
         String password = getText("enter password");
-        for (User user : database.userList) {
+        for (User user : database.getUsers()) {
             if (user.getUsername().equals(username) &&
                     user.getPassword().equals(password)) {
                 Context.setUser(user);
