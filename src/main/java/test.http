@@ -1,0 +1,12 @@
+POST https://online.pdp.uz/api/user_task/status
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlYmM5NWY5OC1lZmM2LTQwYjYtYmE2Mi04YzU1MDZlNTlkODQiLCJpYXQiOjE3MTk4OTMxODksInJvbGVzIjoiUk9MRV9VU0VSLFJPTEVfTUVOVE9SIiwiZXhwIjoxNzE5OTc5NTg5fQ.tO4oS5Qh9vwfSt0D-uDGpVRgrYhlWyBgs6L4Wgx1-g-xtoAKB07PDqPKXht2bzblDNXPNQn-hEJ8_XA_ObgLKQ
+
+{
+  "rating": 5,
+  "status": "COMPLETE",
+  "taskId": "5f1a1214-53b4-4955-8823-81e24788fbac",
+  "userId": "8a47f353-eab2-4b50-a276-ea6db428a82f"
+}
+###
+GET https://jsonplaceholder.org/comments
