@@ -12,8 +12,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 
 import java.util.Optional;
@@ -23,9 +27,14 @@ public class Main {
     static Gson gson = new Gson();
     static Scanner scanner = new Scanner(System.in);
     static Scanner strScanner = new Scanner(System.in);
-
+    static HttpClient client = HttpClient.newHttpClient();
     @SneakyThrows
     public static void main(String[] args) {
+
+        HttpRequest request = HttpRequest.newBuilder().GET()
+                .headers("","").uri(new URI("https://cbu.uz/oz/arkhiv-kursov-valyut/json/")).build();
+
+        ArrayList<Currency> currencies1 = getCurrencies(request);
         ArrayList<Currency> currencies = getCurrencies(new URL("https://cbu.uz/oz/arkhiv-kursov-valyut/json/"));
         while (true){
             System.out.println("""
@@ -74,12 +83,21 @@ public class Main {
         return first;
     }
 
-
     private static ArrayList<Currency> getCurrencies(URL url) throws IOException {
         URLConnection urlConnection = url.openConnection();
         Type type = new TypeToken<ArrayList<Currency>>() {
         }.getType();
         return gson.fromJson(new InputStreamReader(urlConnection.getInputStream()), type);
+    }
+    @SneakyThrows
+    private static ArrayList<Currency> getCurrencies(HttpRequest request)  {
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        Type type = new TypeToken<ArrayList<Currency>>() {
+        }.getType();
+        return gson.fromJson(response.body(),type);
+//        URLConnection urlConnection = url.openConnection();
+//        return gson.fromJson(new InputStreamReader(urlConnection.getInputStream()), type);
     }
 }
 
