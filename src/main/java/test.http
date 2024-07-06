@@ -10,3 +10,23 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlYmM5NWY5OC1lZmM2LTQwYjYtY
 }
 ###
 GET https://jsonplaceholder.org/comments
+###
+POST http://10.10.1.187:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "Ali",
+  "age": 15
+}
+###
+PUT http://10.10.1.187:8080/api/users/22db4402-063b-4274-84fc-1f24da03cf6c
+Content-Type: application/json
+
+{
+  "surname": "Aliyev",
+  "name": "Ali",
+  "age": 15
+
+}
+###
+http://10.10.1.187:8080/api/users

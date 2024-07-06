@@ -2,25 +2,16 @@ package uz.app;
 
 
 import com.google.gson.Gson;
-import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.google.gson.reflect.TypeToken;
-import lombok.SneakyThrows;
-import uz.app.currencyConverter.Currency;
+import uz.app.entity.Payload;
+import uz.app.entity.User;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-
-import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
@@ -28,76 +19,105 @@ public class Main {
     static Scanner scanner = new Scanner(System.in);
     static Scanner strScanner = new Scanner(System.in);
     static HttpClient client = HttpClient.newHttpClient();
-    @SneakyThrows
-    public static void main(String[] args) {
 
-        HttpRequest request = HttpRequest.newBuilder().GET()
-                .headers("","").uri(new URI("https://cbu.uz/oz/arkhiv-kursov-valyut/json/")).build();
-
-        ArrayList<Currency> currencies1 = getCurrencies(request);
-        ArrayList<Currency> currencies = getCurrencies(new URL("https://cbu.uz/oz/arkhiv-kursov-valyut/json/"));
+    public static void main(String[] args) throws Exception {
+        String baseUrl = "http://127.0.0.1:8080/api/users";
         while (true){
             System.out.println("""
                     0 exit
-                    1 to uzs
-                    2 to any
+                    1 create user
+                    2 show users
+                    3 show user by id
+                    4 edit user
+                    5 delete user
                     """);
             switch (scanner.nextInt()){
                 case 0->{
-                    System.out.println("bye bye");
-                    return;
+                    System.out.println("see you soon");
                 }
                 case 1->{
-                    Optional<Currency> optionalCurrency = getCurrency(currencies);
-                    if (optionalCurrency.isPresent()) {
-                        Currency currency = optionalCurrency.get();
-                        System.out.println("enter amount");
-                        double amount = scanner.nextDouble();
-                        System.out.printf("%f usd is %f in uzs\n",amount,amount*Double.parseDouble(currency.getRate()));
+                    User user=new User();
+                    System.out.println("enter name");
+                    user.setName(strScanner.nextLine());
+                    System.out.println("enter surname");
+                    user.setSurname(strScanner.nextLine());
+                    System.out.println("enter age");
+                    user.setAge(scanner.nextInt());
 
-                    }else {
-                        System.out.println("currency not found!");
-                    }
+                    HttpRequest req = HttpRequest
+                            .newBuilder()
+                            .header("Content-type","application/json")
+                            .uri(new URI(baseUrl))
+                            .POST(HttpRequest.BodyPublishers.ofString(gson.toJson(user)))
+                            .build();
+                    HttpResponse<String> send = client.send(req, HttpResponse.BodyHandlers.ofString());
+                    System.out.println(send.body());
                 }
                 case 2->{
-                    Optional<Currency> optionalCurrency = getCurrency(currencies);
-                    if (optionalCurrency.isPresent()) {
-                        Currency currency = optionalCurrency.get();
-                        System.out.println("enter amount");
-                        double amount = scanner.nextDouble();
-                        System.out.printf("%f usd is %f in uzs\n",amount,amount/Double.parseDouble(currency.getRate()));
-                    }else {
-                        System.out.println("currency not found!");
+                    HttpRequest req = HttpRequest
+                            .newBuilder()
+                            .uri(new URI(baseUrl))
+                            .GET()
+                            .build();
+                    HttpResponse<String> send = client.send(req, HttpResponse.BodyHandlers.ofString());
+                    Type type =new TypeToken<ArrayList<User>>(){}.getType();
+                    ArrayList<User> users = gson.fromJson(send.body(),type);
+                    for (User user : users) {
+                        System.out.println(user);
                     }
+
+
+                }
+                case 3->{
+                    System.out.println("enter user id");
+                    String id = strScanner.nextLine();
+                    HttpRequest req = HttpRequest
+                            .newBuilder()
+                            .uri(new URI(baseUrl+"/"+id))
+                            .GET()
+                            .build();
+                    HttpResponse<String> send = client.send(req, HttpResponse.BodyHandlers.ofString());
+                    User user = gson.fromJson(send.body(),User.class);
+
+                    System.out.println(user);
+
+                }
+                case 4->{
+                    System.out.println("enter user id");
+                    String userId = strScanner.nextLine();
+                    String path = baseUrl+"/"+userId;
+
+                    User user =new User();
+                    System.out.println("enter name");
+                    user.setName(strScanner.nextLine());
+                    System.out.println("enter surname");
+                    user.setSurname(strScanner.nextLine());
+                    System.out.println("enter age");
+                    user.setAge(scanner.nextInt());
+
+                    HttpRequest req = HttpRequest
+                            .newBuilder()
+                            .uri(new URI(path))
+                            .PUT(HttpRequest.BodyPublishers.ofString(gson.toJson(user)))
+                            .header("Content-type","application/json")
+                            .build();
+
+                    HttpResponse<String> send = client.send(req, HttpResponse.BodyHandlers.ofString());
+                    System.out.println(send.body());
+                }
+                case 5->{
+                    System.out.println("enter user id");
+                    String id = strScanner.nextLine();
+                    HttpRequest req = HttpRequest
+                            .newBuilder()
+                            .uri(new URI(baseUrl+"/"+id))
+                            .DELETE()
+                            .build();
+                    HttpResponse<String> send = client.send(req, HttpResponse.BodyHandlers.ofString());
+                    System.out.println(send.body());
                 }
             }
         }
-    }
-
-    private static Optional<Currency> getCurrency(ArrayList<Currency> currencies) {
-        currencies.forEach(currency -> System.out.print(currency.getCcy()+"\t"));
-        System.out.println();
-        System.out.println("choose currency");
-        String currency = strScanner.nextLine();
-        Optional<Currency> first = currencies.stream().filter(cur -> cur.getCcy().equals(currency)).findFirst();
-        return first;
-    }
-
-    private static ArrayList<Currency> getCurrencies(URL url) throws IOException {
-        URLConnection urlConnection = url.openConnection();
-        Type type = new TypeToken<ArrayList<Currency>>() {
-        }.getType();
-        return gson.fromJson(new InputStreamReader(urlConnection.getInputStream()), type);
-    }
-    @SneakyThrows
-    private static ArrayList<Currency> getCurrencies(HttpRequest request)  {
-
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Type type = new TypeToken<ArrayList<Currency>>() {
-        }.getType();
-        return gson.fromJson(response.body(),type);
-//        URLConnection urlConnection = url.openConnection();
-//        return gson.fromJson(new InputStreamReader(urlConnection.getInputStream()), type);
     }
 }
 
