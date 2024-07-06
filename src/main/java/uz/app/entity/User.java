@@ -1,15 +1,28 @@
 package uz.app.entity;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
     private String id;
     private String name;
     private String surname;
     private Integer age;
+
+    private User(){
+
+    }
+    public User(String name,String surname){
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public static User getInstance(){
+        return new User();
+    }
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }
