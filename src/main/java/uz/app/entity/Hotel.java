@@ -4,19 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Parent {
+public class Hotel {
+    private final String id = UUID.randomUUID().toString();
     private String name;
-    private String surname;
-    private String age;
-
-
-    public void test() throws Exception{
-
-    }
-    public void xyzzzzzzzzzz(){
-
-    }
+    private Integer floor;
+    private Integer room;
 }

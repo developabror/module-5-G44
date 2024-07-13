@@ -1,28 +1,18 @@
 package uz.app.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.UUID;
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class User {
-    private String id;
+    private final String id = UUID.randomUUID().toString();
     private String name;
-    private String surname;
-    private Integer age;
+    private String email;
+    private String password;
+    private String role;
 
-    private User(){
-
-    }
-    public User(String name,String surname){
-        this.name = name;
-        this.surname = surname;
-    }
-
-    public static User getInstance(){
-        return new User();
-    }
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                '}';
-    }
 }

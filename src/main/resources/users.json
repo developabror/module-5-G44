@@ -1,27 +1,16 @@
 [
   {
-    "username": "admin",
+    "id": "ecb16784-f9a6-42c0-a3e9-440529c6c9d8",
+    "name": "admin",
+    "email": "admin",
     "password": "admin",
     "role": "admin"
   },
   {
-    "username": "a",
-    "password": "a",
-    "role": "user"
-  },
-  {
-    "username": "v",
-    "password": "v",
-    "role": "user"
-  },
-  {
-    "username": "k",
-    "password": "k",
-    "role": "user"
-  },
-  {
-    "username": "p",
-    "password": "p",
+    "id": "099d67c6-473d-4875-b876-1c6ccda71607",
+    "name": "Ali",
+    "email": "ali",
+    "password": "ali",
     "role": "user"
   }
 ]
