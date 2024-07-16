@@ -18,6 +18,7 @@ import java.util.logging.Level;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingServiceClass {
+
     BookingRepository bookingRepository = BookingRepository.getInstance();
 
     public void save(Booking booking) {
